@@ -1,0 +1,25 @@
+Alloy 6.2.0, SAT4J, check holes_closed for 8 Edge, 2 Hole: counterexample.
+
+Wired edges present:
+  Jacobi -> Polar
+  Jacobi -> Finite
+  Jacobi -> Euler
+  Finite -> Cartier
+  Cartier -> F2
+  Zeta -> H
+
+HilbertPolya:
+  operator = H
+  adjoint = H          // H = H*
+  ordinates = Lambda
+  claimsCritical = Lambda   // not Zeta
+
+Red2:
+  domain = Jacobi
+  codomain = Zeta
+  holes = {Hole0} with kind Identify only
+  Preserve is not in Red2.holes.kind
+
+So the second connector does not close identify and preserve.
+This is a counterexample to that implication, not a counterexample
+to the Hilbert-Polya conjecture or to the Riemann hypothesis.
