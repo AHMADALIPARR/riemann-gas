@@ -6,26 +6,37 @@
 
 # riemann-gas
 
-The Riemann gas (primon gas) extracted from [sedona-k](https://github.com/AHMADALIPARR/sedona-k), with the Euler-factor evaluator and the Answer Set Programming DAG built alongside it.
+The Riemann gas (primon gas) extracted from [sedona-k](https://github.com/AHMADALIPARR/sedona-k), with the Euler-factor evaluator and an Answer Set Programming DAG. The decomposition is the DMZ/F2 reduction from [RH_DMZ_F2_ZeroSorry.ml](https://github.com/SNAPKITTYWEST/dmz-f2-decomposition/blob/master/RH_DMZ_F2_ZeroSorry.ml), not an F4 Lie decomposition.
 
-The source calls this the Riemann gas. It is not a claim about the Riemann hypothesis.
+This repository does not prove the Riemann hypothesis.
 
 ## What was extracted
 
-From `sedona-k` (`sedona.k`, `run.k`, `logs/run-thermo.txt`, README §3–§4):
+From `sedona-k` (`sedona.k`, `run.k`, `logs/run-thermo.txt`):
 
 - Layer-1 constants: Goldilocks prime `18446744069414584321`, fold constant `4294967295`, and `P64`, the first 64 primes (2..311).
 - Bosonic modes with energy `E(p) = ln p` and inverse temperature `s > 1`.
 - Single-mode factor `z_p(s) = 1 / (1 - p^{-s})`.
-- Truncated partition function `Z_64(s) = prod_{p in P64} z_p(s)`, the length-64 Euler product.
-- Thermodynamics: `ln Z`, Helmholtz free energy `F = -ln(Z)/s`, mean energy `U = sum (ln p)/(p^s - 1)`, entropy `S = s(U - F)`, occupations `n_p = 1/(p^s - 1)`.
+- Truncated partition function `Z_64(s) = prod_{p in P64} z_p(s)`.
+- Thermodynamics: `ln Z`, `F = -ln(Z)/s`, `U = sum (ln p)/(p^s - 1)`, `S = s(U - F)`, `n_p = 1/(p^s - 1)`.
 
 The ngn/k library is not vendored. The same relations are in `riemann_gas.py`. Logged Sedona values are in `data/sedona-thermo.txt`.
 
-## What was added
+## DMZ / F2
 
-- `riemann_gas.py` evaluates `Z_64`, the thermodynamic row, and a separate zeta function (series, Euler product, eta continuation, functional equation). `Z_64` is not zeta; the script prints the gap.
-- `asp/zeta_dag.lp` is the DAG used to name the call: `zeta_call(s)` over an F4 decomposition on DMZ, whose third argument is the Euler factor `(1 - p^{-s})^{-1}`. That factor is `z_p(s)` from the gas. The F4 and DMZ nodes are labels from that encoding, not objects defined in sedona-k.
+`hol/RH_DMZ_F2_ZeroSorry.ml` is the HOL Light script from `SNAPKITTYWEST/dmz-f2-decomposition`. Its definitions, copied into the DAG, are:
+
+- `zeta s = zeta_polar s + zeta_finite s`
+- `zeta_polar s` is the sum of residues of the completed zeta at 0 and 1
+- `f2_reduction z = (Re z mod 2, Im z mod 2)`
+- `frobenius_eigenvalue s = f2_reduction (zeta_finite s)`
+
+The script's main theorem is discharged from axioms, including `weil_conjecture_p2` and `critical_line_equivalence`. Those two are not the classical theorems they are named after. Deligne's theorem is the Riemann hypothesis for zeta functions of varieties over finite fields, not a statement that a zero Frobenius eigenvalue of this reduction forces `|s| = sqrt(2)`. And `|s| = sqrt(2)` is a circle, not the line `Re s = 1/2`. The source repo says the same thing in [spec/RH_BRIDGE_HONEST_ASSESSMENT.md](https://github.com/SNAPKITTYWEST/dmz-f2-decomposition/blob/master/spec/RH_BRIDGE_HONEST_ASSESSMENT.md): Weil/Deligne and the Jacobi DMZ decomposition are proven in their own domains; the bridge from F2 data to zeros of `zeta(s)` is conjectural.
+
+## What else is here
+
+- `riemann_gas.py` evaluates `Z_64` and the thermodynamic row, and a separate zeta function (series, Euler product, eta continuation, functional equation). `Z_64` is not zeta; the script prints the gap.
+- `asp/zeta_dag.lp` names the call: `zeta_call(s)` over `dmz(polar, finite)`, then `f2_reduction`, with the Euler factor as the gas mode. F2 and DMZ here are labels from that script.
 
 ## Run
 
@@ -33,8 +44,8 @@ The ngn/k library is not vendored. The same relations are in `riemann_gas.py`. L
 python3 riemann_gas.py
 ```
 
-Requires Python 3. `chi` uses mpmath for the gamma factor in the functional equation. The gas table itself is stdlib only.
+The gas table is stdlib only. The functional-equation factor in a fuller evaluator needs a gamma; this file does not call one.
 
 ## License
 
-GNU AGPL v3 only, same as sedona-k. See `LICENSE`.
+The gas code is GNU AGPL v3 only, same as sedona-k. See `LICENSE`. The HOL Light file remains under the license of `SNAPKITTYWEST/dmz-f2-decomposition`.
