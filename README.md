@@ -5,6 +5,10 @@
   SPDX-License-Identifier: AGPL-3.0-only
 -->
 
+<p align="center">
+  <img src="docs/logo.svg" width="96" alt="Riemann gas">
+</p>
+
 # Riemann gas
 
 [![License: AGPL v3](https://img.shields.io/badge/license-AGPL--3.0--only-blue.svg)](LICENSE)
