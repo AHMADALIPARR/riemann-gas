@@ -1,9 +1,6 @@
-% Riemann gas call over the Lean DMZ/F2 objects.
-% Source: SNAPKITTYWEST/dmz-f2-decomposition DMZ_F2_Decomposition.lean
-% JacobiFormF2 = polar part ⊕ finite part in ker(QuantumLaplacian)
-% CartierManin is x |-> x^2, which is id on F2.
-% Euler factor (1 - p^(-s))^(-1) is the single-mode partition of the gas.
-% Names only. Not a proof of the Riemann hypothesis.
+% Riemann gas call over JacobiFormF2, with Red2 holes left open.
+% Wired: euler factor = gas mode; jacobi = polar + finite; cartier on f2.
+% Open: identify (image contains zeta), preserve (zeros on Re = 1/2).
 
 node(zeta_call, operator).
 value(zeta_call, zeta).
@@ -34,6 +31,15 @@ value(laplacian, quantum_laplacian).
 
 node(euler, operator).
 value(euler, euler_factor).
+
+node(red2, operator).
+value(red2, red2).
+
+node(identify, operator).
+value(identify, hole).
+
+node(preserve, operator).
+value(preserve, hole).
 
 node(inv, operator).
 value(inv, inv).
@@ -69,6 +75,11 @@ proposed_edge(jacobi, euler, 4).
 
 proposed_edge(finite, laplacian, 1).
 proposed_edge(finite, cartier, 2).
+
+proposed_edge(red2, jacobi, 1).
+proposed_edge(red2, zeta, 2).
+proposed_edge(red2, identify, 3).
+proposed_edge(red2, preserve, 4).
 
 proposed_edge(euler, inv, 1).
 proposed_edge(inv, sub, 1).
