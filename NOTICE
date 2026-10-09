@@ -1,0 +1,12 @@
+Riemann gas
+Copyright (C) 2026 Prime Materia Commons / Foundry F1 contributors
+Copyright (C) 2026 Ahmad Ali Parr
+SnapKitty Research Lab
+
+The gas code in this repository is licensed under the GNU Affero General Public License, version 3 only. See LICENSE.
+
+The prime spectrum, Goldilocks prime, and thermodynamic table are extracted from https://github.com/AHMADALIPARR/sedona-k, AGPL-3.0-only.
+
+The compiled F2 model is not vendored as the source of truth. It remains https://github.com/SNAPKITTYWEST/dmz-f2-decomposition at commit d36737c4, blob 7360e34, under that repository's license.
+
+The statement of the Riemann hypothesis in README.md follows Riemann (1859) and the mathlib definition in Mathlib.NumberTheory.LSeries.RiemannZeta. It is not a theorem of this repository.

@@ -1,38 +1,54 @@
 <!--
   Copyright (C) 2026 Prime Materia Commons / Foundry F1 contributors
   Copyright (C) 2026 Ahmad Ali Parr
+  SnapKitty Research Lab
   SPDX-License-Identifier: AGPL-3.0-only
 -->
 
-# riemann-gas
+# Riemann gas
 
-The Riemann gas extracted from [sedona-k](https://github.com/AHMADALIPARR/sedona-k), with the Euler-factor evaluator and an ASP DAG. The F2 side is the DMZ decomposition in [SNAPKITTYWEST/dmz-f2-decomposition](https://github.com/SNAPKITTYWEST/dmz-f2-decomposition).
+[![License: AGPL v3](https://img.shields.io/badge/license-AGPL--3.0--only-blue.svg)](LICENSE)
+[![Hypothesis](https://img.shields.io/badge/Riemann%20hypothesis-open-lightgrey.svg)](https://www.claymath.org/millennium/riemann-hypothesis/)
+[![Source](https://img.shields.io/badge/gas-sedona--k-444444.svg)](https://github.com/AHMADALIPARR/sedona-k)
+[![Model](https://img.shields.io/badge/compiled%20model-7360e34-1f6feb.svg)](https://github.com/SNAPKITTYWEST/dmz-f2-decomposition)
+
+Prime modes, Euler factors, and the thermodynamic table for the first 64 primes. SnapKitty Research Lab. Copyright © 2026 Prime Materia Commons / Foundry F1 contributors and Ahmad Ali Parr.
 
 This repository does not prove the Riemann hypothesis.
 
-## Gas
+## The hypothesis, from the source
 
-From `sedona-k`: primes as bosonic modes, `E(p) = ln p`, factor `z_p(s) = 1/(1 - p^{-s})`, truncated partition `Z_64` over the first 64 primes, and `F`, `U`, `S`, `n_p`. Implemented in `riemann_gas.py`. Logged Sedona values are in `data/sedona-thermo.txt`.
+Riemann, 1859, defined ζ(s) by the series Σ n^{-s} for real part greater than 1, continued it, and located the non-trivial zeros on the line of real part 1/2. That location is the hypothesis. It is not a theorem.
 
-## F2 decomposition
+The statement used here is the one in mathlib, `Mathlib.NumberTheory.LSeries.RiemannZeta`:
 
-Two vendored sources:
+```text
+RiemannHypothesis :
+  ∀ s : ℂ,
+    riemannZeta s = 0 →
+    (¬ ∃ n : ℕ, s = -2 * (n + 1)) →
+    s ≠ 1 →
+    s.re = 1 / 2
+```
 
-- `lean/DMZ_F2_Decomposition.lean` defines `JacobiFormF2` as a polar polynomial pair plus a finite vector in the kernel of a shift Laplacian on `(ZMod 2)^(2g)`. Cartier-Manin is `x ↦ x^2`, hence the identity on `F2`. Frobenius and `ModularAction` are defined as the identity map and then proved equal to it by `rfl`. `WeilBound` is the local formula `2^g + 1 + g * 2^(g/2+1)`; `weil_bound_exists` is that formula equal to itself. Genus 1 and 2 evaluate to 7 and 13 by `native_decide`.
-- `hol/RH_DMZ_F2_ZeroSorry.ml` is the HOL Light script. Its main theorem is discharged from axioms, including a `weil_conjecture_p2` that is not Deligne's theorem and a `critical_line_equivalence` that identifies the circle `|s| = sqrt(2)` with the line `Re s = 1/2`.
+Excluded are the trivial zeros at the negative even integers, and the pole at 1. What remains is the claim. Bombieri's note for the Clay problem records the same claim as open. Weil (1948) and Deligne (1974, 1980) proved the analogue for zeta functions of varieties over finite fields. That is a different zeta.
 
-The source assessment [spec/RH_BRIDGE_HONEST_ASSESSMENT.md](https://github.com/SNAPKITTYWEST/dmz-f2-decomposition/blob/master/spec/RH_BRIDGE_HONEST_ASSESSMENT.md) already separates the proven ingredients (Weil/Deligne for varieties over finite fields, Jacobi DMZ in its own domain) from the conjectural bridge to zeros of `zeta(s)`.
+Nothing in `riemann_gas.py`, the ASP DAG, or the compiled F2 model discharges the quantifiers above.
 
-`asp/zeta_dag.lp` names the call: `zeta_call(s)` over `jacobi(polar, finite, f2, euler_factor)`.
+## The gas
 
-## Run
+Extracted from [sedona-k](https://github.com/AHMADALIPARR/sedona-k). Each prime p is a bosonic mode of energy ln p. The inverse temperature is s > 1. The mode factor is the Euler factor 1/(1 - p^{-s}). Over the first 64 primes, 2 through 311, the product is Z_64(s), not ζ(s). Free energy, mean energy, entropy, and occupations are the canonical formulae. Logged values are in `data/sedona-thermo.txt`.
 
 ```bash
 python3 riemann_gas.py
 ```
 
-The Lean file needs Mathlib at the toolchain in `lean/lean-toolchain`. It has not been rechecked here.
+## What is cited, not vendored as truth
+
+The compiled F2 model stays at [SNAPKITTYWEST/dmz-f2-decomposition](https://github.com/SNAPKITTYWEST/dmz-f2-decomposition), commit `d36737c4`, blob `7360e34`. Its own assessment separates Weil–Deligne and the Jacobi DMZ theorem from the conjectural bridge to zeros of ζ(s): [spec/RH_BRIDGE_HONEST_ASSESSMENT.md](https://github.com/SNAPKITTYWEST/dmz-f2-decomposition/blob/master/spec/RH_BRIDGE_HONEST_ASSESSMENT.md).
+
+`asp/zeta_dag.lp` names the gas factor and the polar/finite split. Names are not a map of zeros.
 
 ## License
 
-The gas code is GNU AGPL v3 only, same as sedona-k. See `LICENSE`. The Lean and HOL files remain under the license of `SNAPKITTYWEST/dmz-f2-decomposition`.
+GNU AGPL v3 only. See `LICENSE` and `NOTICE`.
