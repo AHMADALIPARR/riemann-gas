@@ -53,6 +53,16 @@ The compiled F2 model stays at [SNAPKITTYWEST/dmz-f2-decomposition](https://gith
 
 `asp/zeta_dag.lp` names the gas factor and the polar/finite split. Names are not a map of zeros.
 
+## What is machine-checked
+
+`lean/ZetaTruncationProof.lean` carries three theorems, each verified by the Lean 4 kernel with no `sorry`:
+
+- `alloy_red2_discontinuity` — in the wired Alloy graph, `Zeta` is unreachable from `Jacobi`. Proved by `rfl`; zero axioms.
+- `second_connector_fails_reachability` — adding the `Zeta → H` connector edge still leaves `H` unreachable from `Jacobi`. Proved by `rfl`; zero axioms. The Red2 Identify/Preserve holes stay open.
+- `outer_product_nullspace` — a finite rank-1 outer product `u ⊗ v` annihilates every vector orthogonal to `v`. Depends only on Lean's standard axioms (`propext`, `Classical.choice`, `Quot.sound`). A finite truncation leaves an orthogonal kernel: it cannot act as the full identity or close an infinite-dimensional spectrum.
+
+These are theorems about the model's topology and finite linear algebra. They do not prove the Riemann hypothesis, and they do not close the bridge assessed above.
+
 ## License
 
 GNU AGPL v3 only. See `LICENSE` and `NOTICE`.
